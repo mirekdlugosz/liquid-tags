@@ -48,16 +48,14 @@ def img(preprocessor, tag, markup):
     # Parse the markup string
     match = ReImg.search(markup)
     if match:
-        attrs = dict(
-            [
-                (key, val.strip())
-                for (key, val) in six.iteritems(match.groupdict())
+        attrs = {
+                key: val.strip()
+                for (key, val) in match.groupdict().items()
                 if val
-            ]
-        )
+        }
     else:
         raise ValueError(
-            "Error processing input. " "Expected syntax: {0}".format(SYNTAX)
+            "Error processing input. " "Expected syntax: {}".format(SYNTAX)
         )
 
     # Check if alt text is present -- if so, split it from title
@@ -69,8 +67,8 @@ def img(preprocessor, tag, markup):
             attrs["alt"] = attrs["title"]
 
     # Return the formatted text
-    return "<img {0}>".format(
-        " ".join('{0}="{1}"'.format(key, val) for (key, val) in six.iteritems(attrs))
+    return "<img {}>".format(
+        " ".join(f'{key}="{val}"' for (key, val) in attrs.items())
     )
 
 
